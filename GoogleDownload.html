@@ -1,0 +1,71 @@
+<html>
+<head>
+    <title>Download Google 2013 Project</title>
+    <style>
+        body { margin: 0; padding: 0; font-family: arial, sans-serif; background: #fff; color: #333; }
+        #nav-bar { background: #2d2d2d; height: 30px; width: 100%; display: flex; align-items: center; padding-left: 15px; }
+        #nav-bar a { color: #ccc; text-decoration: none; font-size: 13px; font-weight: bold; margin-right: 15px; }
+        .content { width: 750px; margin: 50px auto; border: 1px solid #dcdcdc; padding: 40px; border-radius: 2px; }
+        .header { border-bottom: 1px solid #ebebeb; padding-bottom: 10px; margin-bottom: 25px; }
+        h1 { margin: 0; color: #dd4b39; font-size: 22px; font-weight: normal; }
+        .spec-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 13px; }
+        .spec-table td { padding: 8px; border-bottom: 1px solid #f5f5f5; }
+        .spec-label { font-weight: bold; color: #666; width: 150px; }
+        
+        /* The Functional Download Button */
+        .download-btn {
+            display: inline-block;
+            background: #4d90fe;
+            background-image: linear-gradient(top, #4d90fe, #4787ed);
+            color: white;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 2px;
+            border: 1px solid #3079ed;
+            cursor: pointer;
+        }
+        .download-btn:hover { background: #357ae8; border: 1px solid #2f5bb7; }
+    </style>
+</head>
+<body>
+
+    <div id="nav-bar">
+        <a href="#">Jan Zaluski Archive</a>
+        <a href="#">Softpedia Style</a>
+        <a href="#">No Ads</a>
+    </div>
+
+    <div class="content">
+        <div class="header">
+            <h1>Google 2013 Desktop (Alpha v.0.0.6)</h1>
+        </div>
+
+        <table class="spec-table">
+            <tr><td class="spec-label">Operating System:</td><td>Windows XP, Vista, 7, 8, 8.1, 10, 11</td></tr>
+            <tr><td class="spec-label">Browser:</td><td>Chrome 28 (Win 8.1 Release) to Latest Version</td></tr>
+            <tr><td class="spec-label">License:</td><td>Freeware (Jan Zaluski Inc.)</td></tr>
+            <tr><td class="spec-label">File Type:</td><td>Standalone HTML (No Install Required)</td></tr>
+        </table>
+
+        <div style="text-align: center;">
+            <a id="dl-link" href="#" download="google_2013.html" class="download-btn">DOWNLOAD NOW</a>
+            <p style="font-size: 11px; color: #999; margin-top: 15px;">Verified Safe by Jan Zaluski Inc. - No Advertisements</p>
+        </div>
+    </div>
+
+    <script>
+        // This is your actual website code packed into a string
+        var siteCode = `<html><head><title>Google</title></head><body style="text-align:center;padding-top:100px;"><img src="http://www.google.com/images/srpr/logo11w.png"><br><br><form action="https://www.google.com/search" target="_blank"><input type="text" name="q" style="width:500px;height:35px;"><br><br><input type="submit" value="Google Search"></form><p>©2016-2026 Jan Zaluski Inc.</p></body></html>`;
+
+        // This turns the code into a downloadable file
+        document.getElementById('dl-link').href = 'data:text/html;charset=utf-8,' + encodeURIComponent(siteCode);
+    </script>
+
+    <div style="text-align: center; color: #777; font-size: 12px; margin-top: 20px;">
+        &copy;2016-2026 Jan Zaluski Inc.
+    </div>
+
+</body>
+</html>
