@@ -1,32 +1,76 @@
-<script>
-    let clickCount = 0;
-    const logo = document.getElementById('hplogo');
-    const searchBtn = document.getElementById('search-btn');
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google 2013 - Preview</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: white; }
+        #search-container { text-align: center; margin-top: 100px; }
+        .search-input { width: 500px; padding: 8px; border: 1px solid #d9d9d9; font-size: 16px; margin-bottom: 20px; }
+        .google-btn { padding: 10px 20px; background-color: #f2f2f2; border: 1px solid #f2f2f2; border-radius: 2px; color: #757575; cursor: pointer; font-weight: bold; margin: 4px; }
+        .google-btn:hover { border: 1px solid #c6c6c6; color: #222; }
+        #hplogo { cursor: pointer; width: 269px; height: 95px; transition: all 3s ease; }
+    </style>
+</head>
+<body>
 
-    function triggerEgg() {
-        clickCount++;
-        console.log("Easter Egg Progress: " + clickCount + "/5");
+    <div style="position: fixed; top: 0; left: 0; width: 100%; background-color: #f1f1f1; padding: 12px; border-bottom: 1px solid #ccc; z-index: 10000; text-align: left;">
+        <a href="index.html" style="text-decoration: none; color: #4285f4; font-weight: bold;">← Back to Download Page</a>
+    </div>
 
-        if (clickCount === 5) {
-            // 1. Change the Logo smoothly
-            logo.src = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
-            logo.style.transition = "all 3s ease";
-            logo.style.transform = "rotate(360deg) scale(1.1)";
+    <div id="search-container">
+        <img id="hplogo" src="https://web.archive.org/web/20130901000000im_/http://www.google.com/images/srpr/logo11w.png" alt="Google">
+        
+        <br>
+        
+        <input type="text" class="search-input">
+        
+        <br>
+        
+        <input type="button" id="search-btn" class="google-btn" value="Google Search">
+        <input type="button" class="google-btn" value="I'm Feeling Lucky">
+        
+        <p style="color: #666; font-size: 13px; margin-top: 30px;">Jan Zaluski Inc. - 2013 Archive</p>
+    </div>
+
+    <script>
+        let clickCount = 0;
+        let clickTimer;
+        const logo = document.getElementById('hplogo');
+        const searchBtn = document.getElementById('search-btn');
+
+        function triggerEgg() {
+            // Reset the count if they stop clicking for 1.5 seconds
+            clearTimeout(clickTimer);
+            clickCount++;
             
-            // 2. Change the background to look "Modern"
-            document.body.style.transition = "background 3s";
-            document.body.style.backgroundColor = "#ffffff";
-            
-            alert("The past is evolving... Welcome to the future of Google.");
+            clickTimer = setTimeout(() => {
+                clickCount = 0;
+            }, 1500);
+
+            // If they click 5 times very fast
+            if (clickCount === 5) {
+                // Change to the Modern Google Logo
+                logo.src = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
+                logo.style.transform = "rotate(360deg) scale(1.1)";
+                
+                // Change button style to match modern Google
+                searchBtn.style.backgroundColor = "#4285f4";
+                searchBtn.style.color = "white";
+                searchBtn.style.border = "none";
+                
+                console.log("Easter Egg Activated!");
+            }
         }
-    }
 
-    // This makes the logo clickable for the egg
-    logo.addEventListener('click', triggerEgg);
+        // Attach the trigger to the search button
+        if (searchBtn) {
+            searchBtn.addEventListener('click', function(e) {
+                // This prevents the "New Google" window from opening
+                e.preventDefault(); 
+                triggerEgg();
+            });
+        }
+    </script>
 
-    // This makes the search button clickable for the egg WITHOUT opening a new window
-    searchBtn.addEventListener('click', function(e) {
-        e.preventDefault(); // Stops the redirect
-        triggerEgg();       // Counts the click for the secret
-    });
-</script>
+</body>
+</html>
