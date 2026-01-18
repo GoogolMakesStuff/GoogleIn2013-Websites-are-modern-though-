@@ -1,46 +1,83 @@
-<script>
-    let clickCount = 0;
-    const logo = document.getElementById('hplogo');
-    const searchBtn = document.getElementById('search-btn');
-    const searchBox = document.getElementById('searchbox');
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Google 2013 Archive</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: white; text-align: center; }
+        #nav-bar { position: fixed; top: 0; left: 0; width: 100%; background: #f1f1f1; padding: 12px; border-bottom: 1px solid #ccc; z-index: 1000; text-align: left; box-sizing: border-box; }
+        #nav-bar a { text-decoration: none; color: #4285f4; font-weight: bold; font-size: 14px; }
+        .main-content { margin-top: 150px; }
+        #hplogo { width: 269px; height: 95px; cursor: pointer; transition: all 2s ease; }
+        .search-box { width: 500px; padding: 10px; border: 1px solid #d9d9d9; font-size: 16px; margin: 20px 0; outline: none; }
+        .btn { padding: 10px 20px; background: #f2f2f2; border: 1px solid #f2f2f2; color: #757575; cursor: pointer; font-weight: bold; margin: 4px; border-radius: 2px; }
+        .btn:hover { border: 1px solid #c6c6c6; color: #222; }
+    </style>
+</head>
+<body>
 
-    // 1. FUNCTION TO SEARCH
-    function doSearch() {
-        const query = searchBox.value;
-        if (query !== "") {
-            // This takes you to the real search results immediately
-            window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(query);
-        }
-    }
+    <div id="nav-bar">
+        <a href="index.html">← Back to Download Page</a>
+    </div>
 
-    // 2. FUNCTION FOR EASTER EGG
-    function countForEgg() {
-        clickCount++;
-        if (clickCount === 5) {
-            // Transform the logo
-            logo.src = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
-            logo.style.transform = "rotate(360deg) scale(1.1)";
-            searchBtn.style.backgroundColor = "#4285f4";
-            searchBtn.style.color = "white";
-            alert("Easter Egg Found: The logo has evolved!");
-        }
-    }
-
-    // 3. EVENT LISTENERS
-    searchBtn.addEventListener('click', function() {
-        countForEgg(); // Count the click for the secret
+    <div class="main-content">
+        <img id="hplogo" src="https://web.archive.org/web/20130901000000im_/http://www.google.com/images/srpr/logo11w.png" alt="Google">
         
-        // Only search if there is actually text in the box
-        if (searchBox.value !== "") {
-            // Small delay so you can see the 5th click transform before the page leaves
-            setTimeout(doSearch, 500); 
-        }
-    });
+        <br>
+        <input type="text" id="search-input" class="search-box" placeholder="Search the web...">
+        <br>
+        
+        <input type="button" id="search-btn" class="btn" value="Google Search">
+        <input type="button" class="btn" value="I'm Feeling Lucky">
+        
+        <p style="margin-top: 50px; color: #666; font-size: 13px;">Jan Zaluski Inc. - Preservation Project</p>
+    </div>
 
-    // Let them press "Enter" to search normally
-    searchBox.addEventListener("keypress", function(e) {
-        if (e.key === "Enter") {
-            doSearch();
-        }
-    });
-</script>
+    <script>
+        let clicks = 0;
+        let timer;
+        const logo = document.getElementById('hplogo');
+        const btn = document.getElementById('search-btn');
+        const input = document.getElementById('search-input');
+
+        btn.addEventListener('click', function() {
+            const query = input.value;
+            
+            // Easter Egg Logic: Count fast clicks
+            clearTimeout(timer);
+            clicks++;
+            timer = setTimeout(() => {
+                // If they only clicked once, just search normally
+                if (clicks === 1 && query !== "") {
+                    window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(query);
+                }
+                clicks = 0; 
+            }, 1000);
+
+            // Trigger Egg on 5th click
+            if (clicks === 5) {
+                logo.src = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
+                logo.style.transform = "rotate(360deg) scale(1.1)";
+                btn.style.background = "#4285f4";
+                btn.style.color = "white";
+                btn.style.border = "none";
+                
+                // If they have text, search after the animation finishes
+                if (query !== "") {
+                    setTimeout(() => {
+                        window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(query);
+                    }, 2000);
+                }
+            }
+        });
+
+        // Allow "Enter" key to search normally
+        input.addEventListener("keypress", function(e) {
+            if (e.key === "Enter" && input.value !== "") {
+                window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(input.value);
+            }
+        });
+    </script>
+
+</body>
+</html>
