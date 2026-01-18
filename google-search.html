@@ -8,12 +8,12 @@
     <img id="hplogo" src="https://web.archive.org/web/20130901000000im_/http://www.google.com/images/srpr/logo11w.png" alt="Google" style="cursor:pointer; width:269px; height:95px;">
     
     <div style="margin-top:20px;">
-        <input type="text" style="width: 500px; padding: 8px; border: 1px solid #d9d9d9; font-size: 16px;">
+        <input type="text" id="searchbox" style="width: 500px; padding: 8px; border: 1px solid #d9d9d9; font-size: 16px;">
     </div>
     
     <div style="margin-top:20px;">
-        <input type="button" value="Google Search" style="padding: 10px 20px;" onclick="console.log('Stay in 2013!')">
-        <input type="button" value="I'm Feeling Lucky" style="padding: 10px 20px;">
+        <button type="button" style="padding: 10px 20px; cursor: pointer;" onclick="alert('Search is disabled to keep you in 2013!')">Google Search</button>
+        <button type="button" style="padding: 10px 20px; cursor: pointer;">I'm Feeling Lucky</button>
     </div>
 </center>
 
@@ -28,7 +28,6 @@
             logo.src = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
             logo.style.transition = "all 3s ease";
             logo.style.transform = "rotate(360deg) scale(1.2)";
-            alert("Easter Egg Found! 2013 is evolving...");
+            alert("Easter Egg Found! Welcome to the modern era.");
         }
     });
-</script>
