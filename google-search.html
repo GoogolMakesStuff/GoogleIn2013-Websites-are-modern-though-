@@ -1,92 +1,46 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Google 2013 - Search & Archive</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: white; overflow-x: hidden; }
-        #nav-bar { position: fixed; top: 0; left: 0; width: 100%; background-color: #f1f1f1; padding: 12px; border-bottom: 1px solid #ccc; z-index: 10000; text-align: left; box-sizing: border-box; }
-        #search-container { text-align: center; margin-top: 120px; }
-        .search-input { width: 500px; padding: 10px; border: 1px solid #d9d9d9; font-size: 16px; margin-bottom: 20px; outline: none; }
-        .google-btn { padding: 10px 20px; background-color: #f2f2f2; border: 1px solid #f2f2f2; border-radius: 2px; color: #757575; cursor: pointer; font-weight: bold; margin: 4px; font-size: 13px; }
-        .google-btn:hover { border: 1px solid #c6c6c6; color: #222; box-shadow: 0 1px 1px rgba(0,0,0,0.1); }
-        #hplogo { cursor: pointer; width: 269px; height: 95px; transition: all 2s ease; }
-    </style>
-</head>
-<body>
+<script>
+    let clickCount = 0;
+    const logo = document.getElementById('hplogo');
+    const searchBtn = document.getElementById('search-btn');
+    const searchBox = document.getElementById('searchbox');
 
-    <div id="nav-bar">
-        <a href="index.html" style="text-decoration: none; color: #4285f4; font-weight: bold; font-family: Arial;">← Back to Download Page</a>
-    </div>
-
-    <div id="search-container">
-        <img id="hplogo" src="https://web.archive.org/web/20130901000000im_/http://www.google.com/images/srpr/logo11w.png" alt="Google">
-        <br>
-        <input type="text" id="searchbox" class="search-input" placeholder="Search Google or type a URL">
-        <br>
-        <input type="button" id="search-btn" class="google-btn" value="Google Search">
-        <input type="button" class="google-btn" value="I'm Feeling Lucky">
-        
-        <p style="color: #666; font-size: 13px; margin-top: 50px;">Jan Zaluski Inc. - 2013 Digital Archive</p>
-    </div>
-
-    <script>
-        let clickCount = 0;
-        let clickTimer;
-        const logo = document.getElementById('hplogo');
-        const searchBtn = document.getElementById('search-btn');
-        const searchBox = document.getElementById('searchbox');
-
-        searchBtn.addEventListener('click', function() {
-            const query = searchBox.value;
-
-            // Handle the click counting for the Easter Egg
-            clearTimeout(clickTimer);
-            clickCount++;
-
-            // If they stop clicking for 1 second, reset the count
-            clickTimer = setTimeout(() => {
-                // If they only clicked ONCE and there is text, perform a normal search
-                if (clickCount === 1 && query !== "") {
-                    performSearch(query);
-                }
-                clickCount = 0;
-            }, 1000);
-
-            // Trigger the Easter Egg on the 5th FAST click
-            if (clickCount === 5) {
-                activateEasterEgg();
-                // If there is text in the box, search after the animation
-                if (query !== "") {
-                    setTimeout(() => { performSearch(query); }, 2000);
-                }
-            }
-        });
-
-        function performSearch(q) {
-            // Redirects the current page to real Google results
-            window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(q);
+    // 1. FUNCTION TO SEARCH
+    function doSearch() {
+        const query = searchBox.value;
+        if (query !== "") {
+            // This takes you to the real search results immediately
+            window.location.href = "https://www.google.com/search?q=" + encodeURIComponent(query);
         }
+    }
 
-        function activateEasterEgg() {
-            // Transform Logo to Modern
+    // 2. FUNCTION FOR EASTER EGG
+    function countForEgg() {
+        clickCount++;
+        if (clickCount === 5) {
+            // Transform the logo
             logo.src = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
             logo.style.transform = "rotate(360deg) scale(1.1)";
-            
-            // Modernize the Button
             searchBtn.style.backgroundColor = "#4285f4";
             searchBtn.style.color = "white";
-            searchBtn.style.border = "none";
-            
-            console.log("Secret Found: Modern Google Active");
+            alert("Easter Egg Found: The logo has evolved!");
         }
+    }
 
-        // Allow pressing "Enter" to search normally
-        searchBox.addEventListener("keypress", function(event) {
-            if (event.key === "Enter" && searchBox.value !== "") {
-                performSearch(searchBox.value);
-            }
-        });
-    </script>
+    // 3. EVENT LISTENERS
+    searchBtn.addEventListener('click', function() {
+        countForEgg(); // Count the click for the secret
+        
+        // Only search if there is actually text in the box
+        if (searchBox.value !== "") {
+            // Small delay so you can see the 5th click transform before the page leaves
+            setTimeout(doSearch, 500); 
+        }
+    });
 
-</body>
-</html>
+    // Let them press "Enter" to search normally
+    searchBox.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            doSearch();
+        }
+    });
+</script>
