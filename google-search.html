@@ -3,33 +3,35 @@
 <head>
     <title>Google 2013</title>
     <style>
-        body { font-family: arial, sans-serif; text-align: center; padding-top: 150px; overflow: hidden; }
-        #logo-container { position: relative; display: inline-block; width: 272px; height: 92px; }
-        #google-logo { width: 272px; transition: opacity 0.5s; }
-        .search-box { width: 485px; padding: 5px; font-size: 16px; border: 1px solid #d9d9d9; margin-top: 20px; }
+        body { font-family: arial, sans-serif; text-align: center; padding-top: 150px; overflow: hidden; background: white; }
+        #logo-container { position: relative; display: inline-block; width: 272px; height: 92px; margin-bottom: 20px; }
+        #google-logo { width: 272px; display: block; }
+        .search-box { width: 485px; padding: 5px; font-size: 16px; border: 1px solid #d9d9d9; }
         .buttons { margin-top: 20px; }
-        button { background: #f2f2f2; border: 1px solid #f2f2f2; padding: 10px 15px; font-weight: bold; cursor: pointer; color: #757575; }
+        /* Styl przycisków jak w 2013 roku */
+        .btn-style { background: #f2f2f2; border: 1px solid #f2f2f2; padding: 10px 15px; font-weight: bold; cursor: pointer; color: #757575; font-size: 13px; }
+        .btn-style:hover { border: 1px solid #c6c6c6; color: #222; }
         #stickman-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-        .stickman { position: absolute; bottom: -50px; font-size: 40px; transition: all 1s ease-in-out; }
-        #welcome-text { display: none; margin-top: 10px; color: #4285F4; font-style: italic; font-weight: bold; }
+        .stickman { position: absolute; bottom: -60px; font-size: 40px; transition: all 1.2s ease-in-out; white-space: nowrap; }
+        #welcome-text { display: none; margin-top: 20px; color: #4285F4; font-family: "Times New Roman", serif; font-style: italic; font-size: 24px; }
         .footer { position: fixed; bottom: 10px; width: 100%; font-size: 12px; color: #666; }
     </style>
 </head>
 <body>
 
     <div id="logo-container">
-        <img id="google-logo" src="https://web.archive.org/web/20130901000000im_/http://www.google.com/images/srpr/logo11w.png" alt="Google">
+        <img id="google-logo" src="https://web.archive.org/web/20130901000000im_/http://www.google.com/images/srpr/logo11w.png">
         <div id="stickman-layer"></div>
     </div>
     
     <div id="welcome-text">Welcome, To the beyond future...</div>
 
-    <form action="http://www.google.pl/search" method="GET">
+    <form id="searchForm" action="http://www.google.pl/search" method="GET">
         <input type="hidden" name="gbv" value="1">
-        <input type="text" name="q" class="search-box"><br>
+        <input type="text" name="q" id="query" class="search-box"><br>
         <div class="buttons">
-            <button type="submit" id="search-btn">Szukaj w Google</button>
-            <button type="button">Szczęśliwy traf</button>
+            <button type="button" id="search-btn" class="btn-style">Szukaj w Google</button>
+            <button type="button" class="btn-style">Szczęśliwy traf</button>
         </div>
     </form>
 
@@ -41,48 +43,55 @@
         const logo = document.getElementById('google-logo');
         const layer = document.getElementById('stickman-layer');
         const welcome = document.getElementById('welcome-text');
+        const form = document.getElementById('searchForm');
 
-        btn.addEventListener('click', function(e) {
+        btn.addEventListener('click', function() {
             clicks++;
-            if (clicks === 5) {
-                e.preventDefault();
+            
+            if (clicks < 5) {
+                // Normalne szukanie przy kliknięciach 1-4
+                form.submit();
+            } else if (clicks === 5) {
+                // Animacja przy 5 kliknięciu
                 startAnimation();
             }
         });
 
         function startAnimation() {
-            // 1. Stickman zmywający (zmazujący) logo
+            // 1. Stickman zmywający stare logo
             const cleaner = document.createElement('div');
             cleaner.className = 'stickman';
             cleaner.innerHTML = '🧹🏃';
-            cleaner.style.left = '-100px';
+            cleaner.style.left = '-150px';
             layer.appendChild(cleaner);
 
             setTimeout(() => {
-                cleaner.style.left = '110px';
+                cleaner.style.left = '80px';
                 cleaner.style.bottom = '10px';
             }, 100);
 
             setTimeout(() => {
-                logo.style.opacity = '0'; // Zmazywanie logo
-                cleaner.style.left = '350px'; // Odbiega
+                logo.style.visibility = 'hidden'; // Stare logo znika
+                cleaner.style.left = '400px'; // Sprzątacz ucieka
             }, 1500);
 
-            // 2. 4 Stickmany niosące nowe logo
+            // 2. 4 Stickmany niosące nowe logo (płaskie)
             setTimeout(() => {
                 const team = document.createElement('div');
                 team.className = 'stickman';
-                team.style.left = '-300px';
+                team.style.left = '-500px';
                 team.style.bottom = '10px';
-                // Nowe płaskie logo z 2026 i ekipa
-                team.innerHTML = '🏃🏃<img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" style="width:150px; vertical-align:middle;">🏃🏃';
+                // Wstawiamy nowe logo z 2026 roku
+                team.innerHTML = '🏃🏃<img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" style="width:180px; vertical-align:middle;">🏃🏃';
                 layer.appendChild(team);
                 
                 setTimeout(() => {
-                    team.style.left = '40px';
-                    welcome.style.display = 'block'; // Napis pod nowym logiem
+                    team.style.left = '10px';
+                    setTimeout(() => {
+                        welcome.style.display = 'block'; // Napis "Welcome..."
+                    }, 500);
                 }, 100);
-            }, 2500);
+            }, 2800);
         }
     </script>
 </body>
