@@ -8,19 +8,29 @@
         #gb { background: #2d2d2d; height: 30px; line-height: 30px; text-align: left; padding-left: 15px; font-size: 13px; }
         #gb a { color: #ccc; text-decoration: none; margin-right: 15px; font-weight: bold; }
         
-        #container { padding-top: 100px; position: relative; }
-        #logo-wrapper { height: 150px; position: relative; margin-bottom: 10px; }
-        #google-logo { width: 272px; margin-top: 30px; }
+        #container { padding-top: 100px; position: relative; display: flex; flex-direction: column; align-items: center; }
+        #logo-wrapper { height: 160px; position: relative; width: 100%; display: flex; justify-content: center; align-items: center; }
+        #google-logo { width: 272px; z-index: 5; }
         
-        #welcome-text { visibility: hidden; color: #4285F4; font-family: "Times New Roman", serif; font-style: italic; font-size: 24px; margin-bottom: 20px; }
+        /* Styl czcionki dopasowany do 2013 */
+        #welcome-text { 
+            visibility: hidden; 
+            color: #4285F4; 
+            font-family: "Times New Roman", Times, serif; 
+            font-style: italic; 
+            font-size: 28px; 
+            margin-top: -10px;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+        }
         
         .search-box { width: 485px; padding: 7px; font-size: 16px; border: 1px solid #d9d9d9; outline: none; }
         .buttons { margin-top: 20px; }
-        .btn { background: #f2f2f2; border: 1px solid #dcdcdc; padding: 10px 15px; font-weight: bold; cursor: pointer; color: #757575; font-size: 13px; margin: 0 4px; }
+        .btn { background: #f2f2f2; border: 1px solid #dcdcdc; padding: 10px 15px; font-weight: bold; cursor: pointer; color: #757575; font-size: 13px; margin: 0 4px; border-radius: 2px; }
 
-        /* Animation Layer */
+        /* Stage dla animacji */
         #stage { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-        .stickman { position: absolute; width: 60px; height: 100px; bottom: 0; transition: all 1.5s linear; }
+        .stickman { position: absolute; width: 60px; height: 100px; bottom: 20px; transition: all 1.5s linear; }
         
         .footer { position: fixed; bottom: 15px; width: 100%; font-size: 12px; color: #666; }
     </style>
@@ -50,9 +60,12 @@
 
 <svg style="display:none">
     <symbol id="stickman-svg" viewBox="0 0 100 150">
-        <circle cx="50" cy="30" r="15" stroke="black" stroke-width="4" fill="none" />
-        <line x1="50" y1="45" x2="50" y2="100" stroke="black" stroke-width="4" /> <line x1="50" y1="60" x2="20" y2="90" stroke="black" stroke-width="4" /> <line x1="50" y1="60" x2="80" y2="90" stroke="black" stroke-width="4" />
-        <line x1="50" y1="100" x2="25" y2="140" stroke="black" stroke-width="4" /> <line x1="50" y1="100" x2="75" y2="140" stroke="black" stroke-width="4" />
+        <circle cx="50" cy="30" r="15" stroke="black" stroke-width="5" fill="none" />
+        <line x1="50" y1="45" x2="50" y2="100" stroke="black" stroke-width="5" />
+        <line x1="50" y1="60" x2="20" y2="90" stroke="black" stroke-width="5" />
+        <line x1="50" y1="60" x2="80" y2="90" stroke="black" stroke-width="5" />
+        <line x1="50" y1="100" x2="25" y2="140" stroke="black" stroke-width="5" />
+        <line x1="50" y1="100" x2="75" y2="140" stroke="black" stroke-width="5" />
     </symbol>
 </svg>
 
@@ -74,58 +87,17 @@
         const oldLogo = document.getElementById('google-logo');
         const welcome = document.getElementById('welcome-text');
 
-        // 1. Cleaner Stickman enters with a "broom" (just a line)
+        // 1. Cleaner
         const cleaner = document.createElement('div');
         cleaner.className = 'stickman';
-        cleaner.style.left = '-100px';
+        cleaner.style.left = '-150px';
         cleaner.innerHTML = `
             <svg width="100%" height="100%"><use href="#stickman-svg"/>
-            <line x1="20" y1="90" x2="10" y2="140" stroke="brown" stroke-width="5"/>
-            <line x1="0" y1="140" x2="30" y2="140" stroke="black" stroke-width="8"/></svg>`;
+            <line x1="20" y1="90" x2="0" y2="140" stroke="#795548" stroke-width="6"/>
+            <line x1="-15" y1="140" x2="15" y2="140" stroke="black" stroke-width="10"/></svg>`;
         stage.appendChild(cleaner);
 
         setTimeout(() => {
-            cleaner.style.left = "45%"; // Move to center
+            cleaner.style.left = "calc(50% - 30px)"; // Dokładny środek
             setTimeout(() => {
-                oldLogo.style.visibility = "hidden"; // Zmazuje
-                cleaner.style.left = "110%"; // Leaves
-            }, 1500);
-        }, 100);
-
-        // 2. The Team carrying the new logo
-        setTimeout(() => {
-            const team = document.createElement('div');
-            team.style.position = "absolute";
-            team.style.left = "-500px";
-            team.style.bottom = "0";
-            team.style.width = "600px";
-            team.style.transition = "all 2s ease-out";
-            
-            // 4 Stickmen + New Logo
-            team.innerHTML = `
-                <div style="display:flex; align-items:flex-end;">
-                    <svg width="60" height="100"><use href="#stickman-svg"/></svg>
-                    <svg width="60" height="100"><use href="#stickman-svg"/></svg>
-                    <img id="new-logo" src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" style="width:200px; margin-bottom:20px;">
-                    <svg width="60" height="100"><use href="#stickman-svg"/></svg>
-                    <svg width="60" height="100"><use href="#stickman-svg"/></svg>
-                </div>`;
-            stage.appendChild(team);
-
-            setTimeout(() => {
-                team.style.left = "30%"; // Enter center
-                setTimeout(() => {
-                    welcome.style.visibility = "visible"; // Text on top of search bar
-                    
-                    // Stickmen run away, leaving ONLY the logo
-                    const walkers = team.querySelectorAll('svg');
-                    walkers.forEach(s => s.style.display = 'none');
-                    team.style.left = "40%";
-                }, 2000);
-            }, 100);
-        }, 3500);
-    }
-</script>
-
-</body>
-</html>
+                old
